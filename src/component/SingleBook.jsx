@@ -28,7 +28,7 @@ class SingleBook extends Component {
           variant="top"
           src={this.props.libro.img}
           onClick={() => this.props.cardSelezionata(this.props.libro.asin)}
-          style={{ width: "100%", height: "360px", objectFit: "cover" }}
+          style={{ width: "100%", height: "400px", objectFit: "fill" }}
         />
         <Card.Body>
           <Card.Title>{this.props.libro.title}</Card.Title>

@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
+import { StarFill } from "react-bootstrap-icons";
 
 class AddComment extends Component {
   state = {
@@ -42,6 +43,8 @@ class AddComment extends Component {
                   elementId: this.props.idLibro,
                 },
               });
+              document.getElementById("rate-select").value =
+                "0"; /* con questo resetto il campo alla opzione 0 */
               alert("Commento aggiunto con successo!");
               this.props.updateFetch(); /* Chiamo il metodo updateFetch per recuperare di nuovo i commenti */
             } else {
@@ -77,6 +80,7 @@ class AddComment extends Component {
           required
         />
         <Form.Select
+          id="rate-select"
           aria-label="Number of seats"
           onChange={(e) =>
             this.setState({
@@ -84,8 +88,12 @@ class AddComment extends Component {
             })
           }
         >
-          <option>Quante stelle</option>
-          <option value="1">One</option>
+          <option value="0">Voto da 1 a 5</option>{" "}
+          {/* dovrei aggiungere il fatto di resettare il valore di questo select una volta inviato il commento */}
+          <option value="1">
+            One
+            <StarFill />
+          </option>
           <option value="2">Two</option>
           <option value="3">Three</option>
           <option value="4">Four</option>
