@@ -15,39 +15,52 @@ class AddComment extends Component {
   fetchNewComment = (e) => {
     e.preventDefault();
 
-    this.setState({
-      comment: { ...this.state.comment, createdAt: new Date() },
-    });
-
-    fetch("https://striveschool-api.herokuapp.com/api/comments/", {
-      method: "POST",
-      body: JSON.stringify(this.state.comment),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdkNWI0NDNhMzhjYjAwMTVmNjNjZjIiLCJpYXQiOjE3MTk0OTEzOTYsImV4cCI6MTcyMDcwMDk5Nn0.LDXvAzpXS0c_jlmLQEYfFPW6AtZZGHZZ5chs8xkBFzI",
-      },
-    })
-      .then((resp) => {
-        if (resp.ok) {
-          this.setState({
-            comment: {
-              comment: "",
-              createdAt: "",
-              elementId: this.props.idLibro,
-              rate: 1,
-              updatedAt: "",
-              __v: 0,
-              _id: "",
-            },
-          });
-          alert("Commento aggiunto con successo!");
-        } else {
-          throw new Error("Errore nel reperimento dei commenti");
-        }
-      })
-      .catch((err) => alert(err));
+    /* Aggiorno lo stato del commento con createdAt e poi esegue la fetch */
+    /*  Questo è importante perché setState è asincrono, il che significa che l'aggiornamento dello stato potrebbe non avvenire immediatamente. */
+    this.setState(
+      (prevState) => ({
+        comment: { ...prevState.comment, createdAt: new Date() },
+      }),
+      () => {
+        /* Questa funzione verrà eseguita solo dopo che lo stato è stato aggiornato */
+        fetch("https://striveschool-api.herokuapp.com/api/comments/", {
+          method: "POST",
+          body: JSON.stringify(this.state.comment),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdkNWI0NDNhMzhjYjAwMTVmNjNjZjIiLCJpYXQiOjE3MTk0OTEzOTYsImV4cCI6MTcyMDcwMDk5Nn0.LDXvAzpXS0c_jlmLQEYfFPW6AtZZGHZZ5chs8xkBFzI",
+          },
+        })
+          .then((resp) => {
+            if (resp.ok) {
+              this.setState({
+                comment: {
+                  author: "",
+                  comment: "",
+                  rate: 1,
+                  elementId: this.props.idLibro,
+                },
+              });
+              alert("Commento aggiunto con successo!");
+              this.props.updateFetch(); /* Chiamo il metodo updateFetch per recuperare di nuovo i commenti */
+            } else {
+              throw new Error("Errore nell'aggiunta del commento");
+            }
+          })
+          .catch((err) => alert(err));
+      }
+    );
   };
+
+  componentDidUpdate(prevProps) {
+    /* Se il nuovo idLibro è diverso dal precedente, aggiorno lo stato, questo devo farlo poiche ho riscontranto un ritardo nell'aggiornamento dell'aggiornamento del elementId
+     */ if (prevProps.idLibro !== this.props.idLibro) {
+      this.setState({
+        comment: { ...this.state.comment, elementId: this.props.idLibro },
+      });
+    }
+  }
 
   render() {
     return (

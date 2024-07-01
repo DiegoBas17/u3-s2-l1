@@ -15,6 +15,7 @@ class CommentsList extends Component {
                 oggettoCommenti={commentoLibro}
                 index={index}
                 key={index}
+                updateFetch={this.props.updateFetch}
               />
             );
           })}

@@ -50,6 +50,7 @@ class CommentArea extends Component {
         <CommentsList
           arrayCommenti={this.state.commenti}
           idLibro={this.props.idLibro}
+          updateFetch={this.fetchComments}
         />
       </StickyBox>
     );
