@@ -13,19 +13,19 @@ class BookList extends Component {
   state = {
     libriDaVisualizzare: fantasy,
     searchInput: "",
-    selected: false,
+    /* selected: false, */
     idLibroSelezionato: "",
   };
 
   cardSelezionata = (idLibroSelezionato) => {
-    if (this.state.idLibroSelezionato === idLibroSelezionato) {
+    /*  if (this.state.idLibroSelezionato === idLibroSelezionato) {
       this.setState({ selected: !this.state.selected });
-    } else {
-      this.setState({
-        selected: true,
-        idLibroSelezionato: idLibroSelezionato,
-      });
-    }
+    } else { */
+    this.setState({
+      /*  selected: true, */
+      idLibroSelezionato: idLibroSelezionato,
+    });
+    /* } */
   };
 
   handleChange = (e) => {
@@ -84,35 +84,30 @@ class BookList extends Component {
         </Button>
         <Row className="g-2">
           <Col lg="8">
-            {this.state.searchInput
-              ? this.state.libriDaVisualizzare
-                  .filter((libro) =>
-                    libro.title
-                      .toLowerCase()
-                      .includes(this.state.searchInput.toLowerCase())
-                  )
-                  .map((libro) => {
-                    return (
+            <Row>
+              {this.state.libriDaVisualizzare
+                .filter((libro) =>
+                  libro.title
+                    .toLowerCase()
+                    .includes(this.state.searchInput.toLowerCase())
+                )
+                .map((libro, index) => {
+                  return (
+                    <Col md="6" key={index}>
                       <SingleBook
                         libro={libro}
-                        key={libro.asin}
                         cardSelezionata={this.cardSelezionata}
+                        isSelected={
+                          this.state.idLibroSelezionato === libro.asin
+                        }
                       />
-                    );
-                  })
-              : this.state.libriDaVisualizzare.map((libro) => {
-                  return (
-                    <SingleBook
-                      libro={libro}
-                      key={libro.asin}
-                      cardSelezionata={this.cardSelezionata}
-                      isSelected={this.state.idLibroSelezionato === libro.asin}
-                    />
+                    </Col>
                   );
                 })}
+            </Row>
           </Col>
           <Col lg="4">
-            {this.state.selected && (
+            {this.state.idLibroSelezionato && (
               <CommentArea idLibro={this.state.idLibroSelezionato} />
             )}
           </Col>

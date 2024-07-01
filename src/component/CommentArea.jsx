@@ -1,6 +1,7 @@
 import { Component } from "react";
 import CommentsList from "./CommentsList";
 import AddComment from "./AddComment";
+import StickyBox from "react-sticky-box";
 
 class CommentArea extends Component {
   state = {
@@ -34,15 +35,23 @@ class CommentArea extends Component {
   componentDidMount() {
     this.fetchComments();
   }
+  componentDidUpdate(prevProps) {
+    if (prevProps.idLibro !== this.props.idLibro) {
+      this.fetchComments();
+    }
+  }
   render() {
     return (
-      <>
-        <AddComment idLibro={this.props.idLibro} />
+      <StickyBox offsetTop={20} offsetBottom={20}>
+        <AddComment
+          idLibro={this.props.idLibro}
+          updateFetch={this.fetchComments}
+        />
         <CommentsList
           arrayCommenti={this.state.commenti}
           idLibro={this.props.idLibro}
         />
-      </>
+      </StickyBox>
     );
   }
 }
