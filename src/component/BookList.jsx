@@ -30,26 +30,27 @@ class BookList extends Component {
             onChange={this.handleChange}
           />
         </InputGroup>
-        <h2 className="mb-4">Cambia categoria con un click</h2>
         <Row className="g-2">
-          {this.props.libriDaVisualizzare
-            .filter((libro) =>
-              libro.title
-                .toLowerCase()
-                .includes(this.state.searchInput.toLowerCase())
-            )
-            .map((libro, index) => (
-              <Col md="6" key={index}>
-                <SingleBook
-                  libro={libro}
-                  cardSelezionata={this.cardSelezionata}
-                  isSelected={this.state.idLibroSelezionato === libro.asin}
-                />
-              </Col>
-            ))}
-        </Row>
-        <Row className="mt-4">
-          <Col>
+          <Col md="8">
+            <Row>
+              {this.props.libriDaVisualizzare
+                .filter((libro) =>
+                  libro.title
+                    .toLowerCase()
+                    .includes(this.state.searchInput.toLowerCase())
+                )
+                .map((libro, index) => (
+                  <Col md="6" key={index}>
+                    <SingleBook
+                      libro={libro}
+                      cardSelezionata={this.cardSelezionata}
+                      isSelected={this.state.idLibroSelezionato === libro.asin}
+                    />
+                  </Col>
+                ))}
+            </Row>
+          </Col>
+          <Col md="4">
             {this.state.idLibroSelezionato && (
               <CommentArea idLibro={this.state.idLibroSelezionato} />
             )}
