@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
-import { StarFill } from "react-bootstrap-icons";
 
 class AddComment extends Component {
   state = {
@@ -67,7 +66,7 @@ class AddComment extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.fetchNewComment}>
+      <Form onSubmit={this.fetchNewComment} className="mb-2">
         <Form.Control
           type="text"
           placeholder="Aggiuingi un commento"
@@ -90,14 +89,13 @@ class AddComment extends Component {
         >
           <option value="0">Voto da 1 a 5</option>{" "}
           {/* dovrei aggiungere il fatto di resettare il valore di questo select una volta inviato il commento */}
-          <option value="1">
-            One
-            <StarFill />
+          <option value="1">🌟</option>
+          <option value="2">🌟🌟</option>
+          <option value="3">🌟🌟🌟</option>
+          <option value="4" className="mx-1">
+            🌟🌟🌟🌟
           </option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-          <option value="4">Four</option>
-          <option value="5">Five</option>
+          <option value="5">🌟🌟🌟🌟🌟</option>
         </Form.Select>
         <Button type="submit" variant="outline-secondary" id="button-addon2">
           Invia Commento
